@@ -1,0 +1,122 @@
+Given a string S, find the longest palindromic substring in S. Substring of string S: S[ i . . . . j ] where 0 ≤ i ≤ j < len(S). Palindrome string: A string which reads the same backwards. More formally, S is palindrome if reverse(S) = S. Incase of conflict, return the substring which occurs first ( with the least starting index).
+
+
+Example 1:
+
+Input:
+S = "aaaabbaa"
+Output: aabbaa
+Explanation: The longest Palindromic
+substring is "aabbaa".
+Example 2:
+
+Input: 
+S = "abc"
+Output: a
+Explanation: "a", "b" and "c" are the 
+longest palindromes with same length.
+The result is the one with the least
+starting index.
+
+
+
+
+
+  public:
+    string longestPalin (string S) {
+        // code here
+        
+        // // O(N2)+O(N2)
+        
+        // int n = S.length();
+        // int start=0,max_len=1;
+        // vector<vector<int>> dp(n,vector<int>(n,0));
+        // //////// entering the diagonal element with 1 b/c on
+        // // one element is always palindrome 
+        // for(int i=0;i<n;i++)
+        // {
+        //     dp[i][i]=1;
+        // }
+        // // Checking for diagonal next element for palendrome 
+        // for(int i=0;i<n-1;i++)
+        // {
+        //     if(S[i]==S[i+1])
+        //     {
+        //         dp[i][i+1]=1;
+        //         start=i;
+        //         max_len=2;
+        //     }
+        // }
+        // // For getting the first palendrome of size 2
+        
+        // for(int i=0;i<n-1;i++)
+        // {
+        //     if(dp[i][i+1]==1)
+        //     {
+        //         start= min(start,i);
+        //     }
+        // }
+        
+        
+        // // filling the remaining diagonal elememnts
+        
+        // for(int k=3;k<=n;k++)
+        // {
+        //     for(int i=0;i<n-k+1;i++)
+        //     {
+        //         int j= i+k-1;
+        //         if(dp[i+1][j-1]==1 && S[i]==S[j])
+        //         {
+        //             dp[i][j]=1;
+        //             if(max_len<k)
+        //             {
+        //                 start=i;
+        //                 max_len=k;
+        //             }
+        //         }
+        //     }
+        // }
+        
+        // return S.substr(start,max_len);
+        
+        ///////////////////////////////
+        // O(n2)+O(1)
+        //////////////////////////////
+        
+        int n =S.length();
+        
+        if(n<2)
+        {
+            return S;
+        }
+        
+        int max_len= 1,start=0,low,high;
+        
+        for(int i=0;i<n;i++)
+        {
+            low=i-1;
+            high= i+1;
+            
+            while(high<n && S[high]==S[i])
+            {
+                high++;
+            }
+            while(low>=0 && S[low]==S[i])
+            {
+                low--;
+            }
+            while(low>=0 && high<n && S[low] ==S[high])
+            {
+                low--;
+                high++;
+            }
+            int length= high-low-1;
+            if(max_len<length)
+            {
+                max_len=length;
+                start= low+1;
+            }
+        }
+        return S.substr(start,max_len);
+    }
+};
