@@ -1,0 +1,83 @@
+Given a string S, Find all the possible subsequences of the String in lexicographically-sorted order.
+
+Example 1:
+
+Input : str = "abc"
+Output: a ab abc ac b bc c
+Explanation : There are 7 subsequences that 
+can be formed from abc.
+Example 2:
+
+Input: str = "aa"
+Output: a a aa
+Explanation : There are 3 subsequences that 
+can be formed from aa.
+
+
+
+
+
+
+
+
+
+	public:
+	
+	    void solver_Rec(string ip,string op, vector<string> &ans)
+	    {
+	        
+	        if(ip.length()==0)
+	        {
+	            ans.push_back(op);
+	            return;
+	        }
+	        
+	        string op1= op;
+	        string op2= op;
+	        op2.push_back(ip[0]);
+	        ip.erase(ip.begin()+0);
+	        // Not Taking 
+	        solver_Rec(ip,op1,ans);
+	        // Taking 
+	        solver_Rec(ip,op2,ans);
+	    }
+		vector<string> AllPossibleStrings(string s){
+		    // Code here
+		    
+		    //////////////////////
+		    // Recurssion 
+		    /////////////////////
+		    
+		  //  string op="";
+		  //  vector<string> ans;
+		  //  solver_Rec(s,op,ans);
+		  //  sort(ans.begin(),ans.end());
+		  //  ans.erase(ans.begin()+0);
+		  //  return ans;
+		  
+		  /////////////////////////////
+		  // Using bit Manuplation 
+		  //////////////////////////////
+		  
+		  // Total poweset possible
+		  int n = pow(2,s.length());
+		  vector<string> ans;
+		  for(int i=1;i<n;i++)
+		  {
+		      string str="";
+		      // fiding for every 000 001 010 011 100 etc
+		      for(int j=0;j<s.length();j++)
+		      {
+		          
+		          if(i&(1<<j))
+		          {
+		              str+=s[j];
+		          }
+		          
+		      }
+		      ans.push_back(str);
+		  }
+		  sort(ans.begin(),ans.end());
+		  return ans;
+		}
+};
