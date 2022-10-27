@@ -1,0 +1,96 @@
+Given a string S. The task is to print all unique permutations of the given string in lexicographically sorted order.
+
+ 
+
+Example 1:
+
+Input: ABC
+Output:
+ABC ACB BAC BCA CAB CBA
+Explanation:
+Given string ABC has permutations in 6 
+forms as ABC, ACB, BAC, BCA, CAB and CBA .
+Example 2:
+
+Input: ABSG
+Output:
+ABGS ABSG AGBS AGSB ASBG ASGB BAGS 
+BASG BGAS BGSA BSAG BSGA GABS GASB 
+GBAS GBSA GSAB GSBA SABG SAGB SBAG 
+SBGA SGAB SGBA
+Explanation:
+Given string ABSG has 24 permutations.
+
+
+
+
+
+
+{
+	public:
+	
+	    void solver_Rec(string S,vector<string> &ans, int fre[],string str)
+	    {
+	        if(str.length()== S.length())
+	        {
+	            ans.push_back(str);
+	            return;
+	        }
+	        for(int i=0;i<S.length();i++)
+	        {
+	            if(fre[i]==0)
+	            {
+	                fre[i]=1;
+	                str+=S[i];
+	                solver_Rec(S,ans,fre,str);
+	                fre[i]=0;
+	                str.pop_back();
+	            }
+	        }
+	    }
+	    void solver_Rec_Opti(string S,vector<string> &ans, int i,int n)
+	    {
+	        if(i==n)
+	        {
+	            ans.push_back(S);
+	            return;
+	        }
+	        for(int j=i;j<=n;j++)
+	        {
+                    swap(S[i],S[j]);
+	                solver_Rec_Opti(S,ans,i+1,n);
+	                swap(S[i],S[j]);
+	        }
+	    }
+		vector<string>find_permutation(string S)
+		{
+		    // Code here there
+		  //  vector<string> ans;
+		  //  int fre[S.length()]= {0};
+		  //  solver_Rec(S,ans,fre,"");
+		  //  sort(ans.begin(),ans.end());
+		  //  for(int i=0;i<ans.size();i++)
+		  //  {
+		  //      if(ans[i]==ans[i+1])
+		  //      {
+		  //          ans.erase(ans.begin()+i);
+		  //      }
+		  //  }
+		  //  return ans;
+		 /////////////////////////
+		 // Spce Optimization
+		 /////////////////////////
+		    vector<string> ans;
+		    int n = S.length();
+		    solver_Rec_Opti(S,ans,0,n-1);
+		    sort(ans.begin(),ans.end());
+		    for(int i=0;i<ans.size();i++)
+		    {
+		        if(ans[i]==ans[i+1])
+		        {
+		            ans.erase(ans.begin()+i);
+		        }
+		    }
+		    return ans;
+		}
+};
