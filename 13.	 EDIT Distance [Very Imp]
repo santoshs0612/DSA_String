@@ -1,0 +1,124 @@
+Given two strings s and t. Return the minimum number of operations required to convert s to t.
+The possible operations are permitted:
+
+Insert a character at any position of the string.
+Remove any character from the string.
+Replace any character from the string with any other character.
+ 
+
+Example 1:
+
+Input: 
+s = "geek", t = "gesek"
+Output: 1
+Explanation: One operation is required 
+inserting 's' between two 'e's of str1.
+Example 2:
+
+Input : 
+s = "gfg", t = "gfg"
+Output: 
+0
+Explanation: Both strings are same.
+
+
+
+
+
+
+
+
+  public:
+  int solver_Rec(string s,string t,int m,int n)
+  {
+      if(m==0)
+      {
+          return n;
+      }
+      if(n==0)
+      {
+          return m;
+      }
+      
+      if(s[m-1]==t[n-1])
+      {
+         return solver_Rec(s,t,m-1,n-1);
+      }
+      else 
+      {
+          return 1+min(solver_Rec(s,t,m-1,n),min(solver_Rec(s,t,m,n-1),solver_Rec(s,t,m-1,n-1)));
+      }
+  }
+ 
+   int solver_Mem(string s,string t,int m,int n,vector<vector<int>> &dp)
+  {
+      if(m==0)
+      {
+          return n;
+      }
+      if(n==0)
+      {
+          return m;
+      }
+      if(dp[m][n]!=-1)
+      {
+          return dp[m][n];
+      }
+      if(s[m-1]==t[n-1])
+      {
+         return dp[m][n]=solver_Rec(s,t,m-1,n-1);
+      }
+      else 
+      {
+          return dp[m][n]=1+min(solver_Rec(s,t,m-1,n),min(solver_Rec(s,t,m,n-1),solver_Rec(s,t,m-1,n-1)));
+      }
+  }
+    int editDistance(string s, string t) {
+        // Code here
+        // Reursion 0(3^n*)
+        ////////////////////////
+        // Recursion 
+        ///////////////////////
+        
+        // int m=s.length();
+        // int n=t.length();
+        // return solver_Rec(s,t,m,n);
+        
+        ///////////////////////
+        // Memorization 
+        //////////////////////
+        
+        // int m=s.length();
+        // int n=t.length();
+        // vector<vector<int>> dp(m+1,vector<int>(n+1,-1));
+        // return solver_Mem(s,t,m,n,dp);
+        
+        // DP O(m*n)
+        int n= s.length();
+        int m=t.length();
+        vector<vector<int>>dp(n+1,vector<int>(m+1,0));
+        
+        for(int i=0;i<n+1;i++)
+        {
+            for(int j=0;j<m+1;j++)
+            {
+                if(i==0)
+                {
+                    dp[i][j]=j;
+                }
+                else if(j==0)
+                {
+                    dp[i][j]=i;
+                }
+                else if(s[i-1]==t[j-1])
+                {
+                    dp[i][j]=dp[i-1][j-1];
+                }
+                else {
+                    dp[i][j]= 1+min(dp[i-1][j],min(dp[i][j-1],dp[i-1][j-1]));
+                }
+            }
+        }
+        return dp[n][m];
+    }
+};
