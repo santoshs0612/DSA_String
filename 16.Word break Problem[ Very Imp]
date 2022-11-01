@@ -1,0 +1,100 @@
+Given a string A and a dictionary of n words B, find out if A can be segmented into a space-separated sequence of dictionary words.
+
+Note: From the dictionary B each word can be taken any number of times and in any order.
+Example 1:
+
+Input:
+n = 12
+B = { "i", "like", "sam",
+"sung", "samsung", "mobile",
+"ice","cream", "icecream",
+"man", "go", "mango" }
+A = "ilike"
+Output:
+1
+Explanation:
+The string can be segmented as "i like".
+
+Example 2:
+
+Input:
+n = 12
+B = { "i", "like", "sam",
+"sung", "samsung", "mobile",
+"ice","cream", "icecream", 
+"man", "go", "mango" }
+A = "ilikesamsung"
+Output:
+1
+Explanation:
+The string can be segmented as 
+"i like samsung" or "i like sam sung".
+
+
+
+
+
+
+
+// A : given string to search
+// B : vector of available strings
+
+class Solution
+{
+public:
+    unordered_map<string,int> dp;
+    int find_word(string s,vector<string> &B)
+    {
+        int n =B.size();
+        for(int i=0;i<n;i++)
+        {
+            string a= B[i];
+            if(s==a)
+            {
+                return 1;
+            }
+        }
+        return 0;
+    }
+    int wordBreak(string A, vector<string> &B) {
+        //code here
+        ///////////////////////
+        // Recurssion 
+        ///////////////////////
+        // int m= A.length();
+        // if(m==0)
+        // {
+        //     return 1;
+        // }
+        // for(int i=1;i<=m;i++)
+        // {
+        //     if(find_word(A.substr(0,i),B) && wordBreak(A.substr(i,m),B))
+        //     {
+        //         return 1;
+        //     }
+        // }
+        // return 0;
+        
+        //////////////////////////
+        // Memorization 
+        //////////////////////////
+        int m= A.length();
+        if(m==0)
+        {
+            return 1;
+        }
+        if(dp[A]!=0)
+        {
+            return dp[A];
+        }
+        for(int i=1;i<=m;i++)
+        {
+            if(find_word(A.substr(0,i),B) && wordBreak(A.substr(i,m),B))
+            {
+                return dp[A]=1;
+            }
+        }
+        return dp[A]=0;
+        
+    }
+};
