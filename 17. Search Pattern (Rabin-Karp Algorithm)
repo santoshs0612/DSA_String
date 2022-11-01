@@ -1,0 +1,85 @@
+Given two strings, one is a text string and other is a pattern string. The task is to print the indexes of all the occurences of pattern string in the text string. For printing, Starting Index of a string should be taken as 1.
+
+Example 1:
+
+Input:
+S = "batmanandrobinarebat", pat = "bat"
+Output: 1 18
+Explanation: The string "bat" occurs twice
+in S, one starts are index 1 and the other
+at index 18. 
+â€‹Example 2:
+
+Input: 
+S = "abesdu", pat = "edu"
+Output: -1
+Explanation: There's not substring "edu"
+present in S.
+
+
+
+
+
+
+
+{
+    public:
+        vector <int> search(string pat, string txt)
+        {
+            //code here.
+            
+            vector<int> ans;
+            int n = pat.length();
+            int m = txt.length();
+            int p=0;
+            int t=0;
+            int h=1;
+            int MOD=101;// any prime number 
+            int d=256;
+            int i,j;
+            for(i=0;i<n-1;i++)
+            {
+                h=(h*d)%MOD;
+            }
+            
+            for(i=0;i<n;i++)
+            {
+                p=(d*p+pat[i])%MOD;
+                t=(d*t+txt[i])%MOD;
+            }
+            
+            for(i=0;i<=m-n;i++)
+            {
+                if(p==t)
+                {
+                    for(j=0;j<n;j++)
+                    {
+                        if(txt[i+j]!=pat[j])
+                        {
+                            break;
+                        }
+                    }
+                    if(j==n)
+                    {
+                        ans.push_back(i+1);
+                    }
+                }
+                
+                if(i<m-n)
+                {
+                    t= (d*(t-txt[i]*h)+txt[i+n])%MOD;
+                    if(t<0)
+                    {
+                        t=t+MOD;
+                    }
+                }
+            }
+            if(ans.size()==0)
+            {
+                ans.push_back(-1);
+                return ans;
+            }
+            return ans;
+        }
+     
+};
