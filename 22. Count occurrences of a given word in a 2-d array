@@ -1,0 +1,90 @@
+Find the number of occurrences of a given search word in a 2d-Array of characters where the word can go up, down, left, right, and around 90-degree bends.
+Note: While making a word you can use one cell only once.
+
+
+Example 1:
+
+Input: 
+R = 4, C = 5
+mat = {{S,N,B,S,N},
+       {B,A,K,E,A},
+       {B,K,B,B,K},
+       {S,E,B,S,E}}
+target = SNAKES
+Output:
+3
+Explanation: 
+S N B S N
+B A K E A
+B K B B K
+S E B S E
+Total occurrence of the word is 3
+and denoted by color.
+Example 2:
+
+Input:
+R = 3, C = 3 
+mat = {{c,a,t},
+       {a,t,c},
+       {c,t,a}}
+target = cat
+Output:
+5
+Explanation: Same explanation
+as first example.
+
+
+
+//User function Template for C++
+
+class Solution{
+    public:
+    int solver(vector<vector<char> > &mat,string target,int r,int c,int row,int col,int ind,int n)
+    {
+        int found=0;
+        
+        if(r>=0 && r<= row && c>=0 && c<=col && target[ind]==mat[r][c])
+        {
+            char match= target[ind];
+            ind++;
+            mat[r][c]=0;
+            
+            if(ind==n)
+            {
+                found++;
+            }
+            else 
+            {
+                found+=solver(mat,target,r+1,c,row,col,ind,n);
+                found+=solver(mat,target,r-1,c,row,col,ind,n);
+                found+=solver(mat,target,r,c+1,row,col,ind,n);
+                found+=solver(mat,target,r,c-1,row,col,ind,n);
+            }
+            mat[r][c]= match;
+            
+        }
+        
+        return found;
+        
+    }
+    
+    int findOccurrence(vector<vector<char> > &mat, string target){
+        
+        int row= mat.size();
+        int col= mat[0].size();
+        int r=0,c=0;
+        int count=0;
+        int n = target.length();
+        for(int r=0;r<row;r++)
+        {
+            for(int c=0;c<col;c++)
+            {
+                count+= solver(mat,target,r,c,row-1,col-1,0,n);
+            }
+        }
+        
+        return count;
+        
+        
+    }
+};
