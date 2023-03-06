@@ -1,0 +1,85 @@
+Given a string in roman no format (s)  your task is to convert it to an integer . Various symbols and their values are given below.
+I 1
+V 5
+X 10
+L 50
+C 100
+D 500
+M 1000
+
+Example 1:
+
+Input:
+s = V
+Output: 5
+Example 2:
+
+Input:
+s = III 
+Output: 3
+
+
+
+//User function template for C++
+
+class Solution {
+  public:
+  int rom(char a)
+  {
+     switch(a){
+         
+        case 'I':
+            return 1;
+            break;
+        case 'V':
+            return 5;
+            break;
+        case 'X':
+            return 10;
+            break;
+        case 'L':
+            return 50;
+            break;
+        case 'C':
+            return 100;
+            break;
+        case 'D':
+            return 500;
+            break;
+        case 'M':
+            return 1000;
+            break;
+     }
+     
+  }
+    int romanToDecimal(string &str) {
+        // code here
+        
+        int n =str.length();
+        int i=n-1;
+        int ans=0;
+        int prev=0,cur=0;
+        cur= rom(str[i--]);
+        if(i==-1)
+        {
+            return cur;
+        }
+        ans=cur;
+        while(i>=0)
+        {
+            prev= cur;
+            cur= rom(str[i--]);
+            if(prev>cur)
+            {
+                ans-=cur;
+            }
+            else 
+            {
+                ans+=cur;
+            }
+
+
+        }
+        return ans;
+    }
+};
