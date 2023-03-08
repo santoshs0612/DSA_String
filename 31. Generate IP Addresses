@@ -1,0 +1,99 @@
+Given a string S containing only digits, Your task is to complete the function genIp() which returns a vector containing all possible combinations of valid IPv4 IP addresses and takes only a string S as its only argument.
+Note: Order doesn't matter. A valid IP address must be in the form of A.B.C.D, where A, B, C, and D are numbers from 0-255. The numbers cannot be 0 prefixed unless they are 0.
+
+
+For string 11211 the IP address possible are 
+1.1.2.11
+1.1.21.1
+1.12.1.1
+11.2.1.1
+
+Example 1:
+
+Input:
+S = 1111
+Output: 1.1.1.1
+Example 2:
+
+Input:
+S = 55
+Output: -1
+
+
+/*You are required to complete this method*/
+
+class Solution{
+  public:
+  
+  int ip_valid(string ip)
+  {
+      vector<string> parts;
+      string temp="";
+      
+      for(int i=0;i<ip.length();i++)
+      {
+          if(ip[i]=='.')
+          {
+              parts.push_back(temp);
+              temp="";
+          }
+          else
+          {
+              temp+=ip[i];
+          }
+      }
+      parts.push_back(temp);
+      
+      for(int i=0;i<parts.size();i++)
+      {
+          if(parts[i].length()>3 || stoi(parts[i])<0 || stoi(parts[i])>255)
+          {
+              return 0;
+          }
+          if(parts[i].length()>1 && stoi(parts[i])==0)
+          {
+              return 0;
+          }
+          if(parts[i].length()>1 && stoi(parts[i])!=0 && parts[i][0]=='0')
+          {
+              return 0;
+          }
+      }
+      return 1;
+  }
+    vector<string> genIp(string &s) {
+        // Your code here
+        
+        int n= s.length();
+        vector<string> ans;
+        string temp=s;
+        
+        if(n>12 || n<4)
+        {
+            return ans;
+        }
+        
+        for(int i=1;i<n-2;i++)
+        {
+            for(int j=i+1;j<n-1;j++)
+            {
+                for(int k=j+1;k<n;k++)
+                {
+                    temp=temp.substr(0,k)+'.'+temp.substr(k);
+                    temp=temp.substr(0,j)+'.'+temp.substr(j);
+                    temp=temp.substr(0,i)+'.'+temp.substr(i);
+                    
+                    if(ip_valid(temp))
+                    {
+                        ans.push_back(temp);
+                    }
+                    temp=s;
+                }
+                
+            }
+
+        }
+        return ans;
+    }
+
+};
