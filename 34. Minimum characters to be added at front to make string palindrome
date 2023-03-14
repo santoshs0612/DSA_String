@@ -1,0 +1,77 @@
+Given string str of length N. The task is to find the minimum characters to be added at the front to make string palindrome.
+Note: A palindrome is a word which reads the same backward as forward. Example: "madam".
+
+Example 1:
+
+Input:
+S = "abc"
+Output: 2
+Explanation: 
+Add 'b' and 'c' at front of above string to make it
+palindrome : "cbabc"
+Example 2:
+
+Input:
+S = "aacecaaa"
+Output: 1
+Explanation: Add 'a' at front of above string
+to make it palindrome : "aaacecaaa"
+
+
+
+class Solution {
+public:
+    int minChar(string str){
+        //Write your code here
+        // O(N2)
+        // int i=0,j=str.length()-1,trim=j,ans=0;
+        // while(i<j)
+        // {
+        //     if(str[i]==str[j])
+        //     {
+        //         i++;
+        //         j--;
+        //     }
+        //     else
+        //     {
+        //         ans++;
+        //         i=0;
+        //         j=--trim;
+        //     }
+        // }
+        // return ans;
+        
+        // LPS method ;
+        
+        vector<int> lps;
+        lps.push_back(0);
+        int n =str.length();
+        string str1=str;
+        reverse(str.begin(),str.end());
+        string newStr=str1+'$'+str;
+        n= newStr.length();
+        int j=1,i=0;
+        while(j<n)
+        {
+            if(newStr[i]==newStr[j])
+            {
+                lps.push_back(i+1);
+                j++;
+                i++;
+            }
+            else{
+                
+                if(i==0)
+                {
+                    lps.push_back(0);
+                    j++;
+                }
+                else{
+                    i=lps[i-1];
+                }
+            }
+        }
+        return n/2-lps.back();
+        
+    }
+};
