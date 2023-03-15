@@ -1,0 +1,49 @@
+Given a string S. For each index i(1<=i<=N-1), erase it if s[i] is equal to s[i-1] in the string.
+
+Example 1:
+
+Input:
+S = aabb
+Output:  ab 
+Explanation: 'a' at 2nd position is
+appearing 2nd time consecutively.
+Similiar explanation for b at
+4th position.
+
+Example 2:
+
+Input:
+S = aabaa
+Output:  aba
+Explanation: 'a' at 2nd position is
+appearing 2nd time consecutively.
+'a' at fifth position is appearing
+2nd time consecutively.
+
+class Solution{
+    public:
+    string removeConsecutiveCharacter(string s)
+    {
+        // code here.
+        int n= s.length();
+        // base case
+        if(n==0 || n==1)
+        {
+            return s;
+        }
+        
+        // main case 
+        if(s[0]==s[1])
+        {
+            int i=0;
+            while(s[i]==s[0] && i<n)
+            {
+                i++;
+            }
+            return s[0]+removeConsecutiveCharacter(s.substr(i));
+        }else 
+        {
+            return s[0]+removeConsecutiveCharacter(s.substr(1));
+        }
+    }
+};
