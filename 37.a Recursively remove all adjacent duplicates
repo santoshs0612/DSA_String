@@ -1,0 +1,58 @@
+Given a string s, remove all its adjacent duplicate characters recursively. 
+
+Note: For some test cases, the resultant string would be an empty string. In that case, the function should return the empty string only.
+
+Example 1:
+
+Input:
+S = "geeksforgeek"
+Output: "gksforgk"
+Explanation: 
+g(ee)ksforg(ee)k -> gksforgk
+
+Example 2:
+
+Input: 
+S = "abccbccba"
+Output: ""
+Explanation: 
+ab(cc)b(cc)ba->abbba->a(bbb)a->aa->(aa)->""(empty string)
+
+//User function template for C++
+
+class Solution{
+public:
+    string solverRec(string s)
+    {
+        int n= s.length();
+        int i=0;
+        string temp;
+        while(i<n)
+        {
+            int j=i+1;
+            while(s[i]==s[j] && j<n)
+            {
+                j++;
+            }
+            if(j==i+1)
+            {
+                temp+=s[i];
+            }
+            i=j;
+        }
+        return temp;
+    }
+    string rremove(string s){
+        // code here
+        while(1)
+        {
+            string temp = solverRec(s);
+            if(temp.length()== s.length())
+            {
+                break;
+            }
+            s=temp;
+        }
+        return s;
+    }
+};
